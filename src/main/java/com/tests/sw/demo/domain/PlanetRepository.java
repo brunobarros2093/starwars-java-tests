@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.QueryByExampleExecutor;
 
 public interface PlanetRepository extends CrudRepository<Planet, Long>, QueryByExampleExecutor<Planet>{
 	
-	Optional<Planet> findByName(String planetName);
+	Optional<Planet> findByNome(String planetName);
 	
 	@Override
 	<S extends Planet>List<S> findAll(Example<S> example);

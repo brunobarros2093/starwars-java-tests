@@ -1,6 +1,5 @@
 package com.tests.sw.demo.domain;
 
-import com.tests.sw.demo.common.PlanetConstants;
 import com.tests.sw.demo.web.PlanetService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -66,7 +65,7 @@ public class PlanetServiceTest {
 
     @Test
     public void getPlanet_ByExistingName_ReturnsPlanet() {
-        when(planetRepository.findByName(PLANET.getNome())).thenReturn(Optional.of(PLANET));
+        when(planetRepository.findByNome(PLANET.getNome())).thenReturn(Optional.of(PLANET));
 
         Optional<Planet> sut = planetService.getByName(PLANET.getNome());
 
@@ -77,7 +76,7 @@ public class PlanetServiceTest {
     @Test
     public void getPlanet_ByUnexistingName_ReturnsEmpty() {
         final String name = "Unexisting name";
-        when(planetRepository.findByName(name)).thenReturn(Optional.empty());
+        when(planetRepository.findByNome(name)).thenReturn(Optional.empty());
 
         Optional<Planet> sut = planetService.getByName(name);
 
