@@ -1,6 +1,7 @@
 package com.tests.sw.demo.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 @Entity
@@ -10,8 +11,11 @@ public class Planet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty
     private String nome;
+    @NotEmpty
     private String climate;
+    @NotEmpty
     private String terrain;
 
 
