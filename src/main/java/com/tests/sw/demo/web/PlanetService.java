@@ -29,7 +29,7 @@ public class PlanetService {
     }
     
     public Optional<Planet> getByName(String planetName){
-    	return planetRepository.findByNome(planetName);
+    	return planetRepository.findPlanetByName(planetName);
     }
 
 	public List<Planet> list(String terrain, String climate) {

@@ -1,6 +1,5 @@
 package com.tests.sw.demo.domain;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -17,8 +16,6 @@ public class PlanetRepositoryTest {
     private PlanetRepository planetRepository;
 
     @Autowired
-    private TestEntityManager entityManager;
-    @Autowired
     private TestEntityManager testEntityManager;
 
     @Test
@@ -26,7 +23,7 @@ public class PlanetRepositoryTest {
         Planet planet = planetRepository.save(PLANET);
         Planet sut = testEntityManager.find(Planet.class, planet.getId());
         assertThat(sut).isNotNull();
-        assertThat(sut.getNome()).isEqualTo(planet.getNome());
+        assertThat(sut.getName()).isEqualTo(planet.getName());
         assertThat(sut.getClimate()).isEqualTo(planet.getClimate());
 
     }
@@ -38,6 +35,14 @@ public class PlanetRepositoryTest {
 
         assertThatThrownBy(() -> planetRepository.save(emptyPlanet)).isInstanceOf(RuntimeException.class);
         assertThatThrownBy(() -> planetRepository.save(invalidPlanet)).isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    public void createPlanet_withExistingName_ThrowsException() {
+        Planet planet = testEntityManager.persistFlushFind(PLANET);
+        testEntityManager.detach(planet);
+        planet.setId(null);
+        assertThatThrownBy(()->planetRepository.save(PLANET)).isInstanceOf(RuntimeException.class); // atualiza
     }
 
 }

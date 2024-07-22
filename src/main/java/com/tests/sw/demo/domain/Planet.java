@@ -5,23 +5,25 @@ import jakarta.validation.constraints.NotEmpty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 @Entity
-@Table(name = "planet")
+@Table(name = "PLANET")
 public class Planet {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     @NotEmpty
-    private String nome;
+    @Column(unique = true, nullable = false)
+    private String name;
     @NotEmpty
     private String climate;
     @NotEmpty
     private String terrain;
 
 
-    public Planet(String nome, String climate, String terrain) {
+    public Planet(String name, String climate, String terrain) {
         this.id = id;
-        this.nome = nome;
+        this.name = name;
         this.climate = climate;
         this.terrain = terrain;
     }
@@ -43,12 +45,12 @@ public class Planet {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String nome) {
+        this.name = nome;
     }
 
     public String getClimate() {
