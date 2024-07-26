@@ -1,6 +1,7 @@
 package com.tests.sw.demo.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tests.sw.demo.domain.Planet;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -31,5 +32,16 @@ public class PlanetControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$").value(PLANET));
+    }
+    @Test
+    public void createPlanet_WithInvalidData_ReturnsBadRequest() throws Exception {
+        Planet emptyPlanet = new Planet();
+        Planet invalidPlanet = new Planet("","", "");
+        mockMvc.perform(post("/planets").content(mapper.writeValueAsString(emptyPlanet))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+        mockMvc.perform(post("/planets").content(mapper.writeValueAsString(invalidPlanet))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 }
