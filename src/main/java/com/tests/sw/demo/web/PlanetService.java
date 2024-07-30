@@ -3,6 +3,7 @@ package com.tests.sw.demo.web;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,16 @@ public class PlanetService {
     }
     
     public Planet create(Planet planet) {
-        return planetRepository.save(planet);
+        try {
+            Planet result = this.get(planet.getId()).orElseThrow();
+            if(!result.getId().equals(planet.getId()) || !result.getName().equals(planet.getName())) {
+                return planetRepository.save(planet);
+            }
+
+        } catch(DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException(e.getMessage());
+        }
+        return null;
     }
     
     public Optional<Planet> get(Long id) {
